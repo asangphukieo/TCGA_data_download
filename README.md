@@ -14,14 +14,21 @@ https://portal.gdc.cancer.gov/repository?facetTab=files&filters=%7B%22op%22%3A%2
 ![image](https://user-images.githubusercontent.com/47389288/225690920-a75420f6-5ea6-4608-9250-06179ec98cbb.png)
 
 ### 3. Install GDC tool following https://gdc.cancer.gov/access-data/gdc-data-transfer-tool
+```
+wget https://gdc.cancer.gov/files/public/file/gdc-client_v1.6.1_Ubuntu_x64.zip
+unzip gdc-client_v1.6.1_Ubuntu_x64.zip
+#run gdc-client -h to check whether the tool can run on your system
+./gdc-client -h
+```
+
 ### 4. Download all the files by GDC tool with single command
 ```
-gdc-client download -m gdc_manifest_20230127_133037.txt
+./gdc-client download -m gdc_manifest_20230127_133037.txt
 ```
 
 if your data is **controlled** , you need to get permission to dowload the token file, and submit the token file with the command
 ```
-gdc-client download -m gdc_manifest_20230127_133037.txt -t gdc-user-token.2023-01-30T16_31_33.133Z.txt
+./gdc-client download -m gdc_manifest_20230127_133037.txt -t gdc-user-token.2023-01-30T16_31_33.133Z.txt
 ```
 
 **Optional** <br>
@@ -40,7 +47,7 @@ submit parallel job by slurm
 #SBATCH --ntasks=100
 for id in `cut -f1 gdc_manifest.2023-02-06.txt|tail -n+2`
 do
-   srun -N1 -n1 -c1 --exact gdc-client download $id -t gdc-user-token.txt &
+   srun -N1 -n1 -c1 --exact ./gdc-client download $id -t gdc-user-token.txt &
 done
 wait
 ```
